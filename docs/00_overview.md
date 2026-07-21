@@ -1,50 +1,22 @@
-# ლაბორატორიული ბიოინფორმატიკის სახელმძღვანელო
+# Lab Bioinformatics Handbook: Overview
 
-ეს საცავი შეიცავს Windows/WSL გარემოში ბიოინფორმატიკის ძირითადი სამუშაო პროცესების ნაბიჯ-ნაბიჯ ინსტრუქციებს. პირველი ნაწილი მოიცავს WSL-ის დაყენებას, Linux-ის საბაზისო ბრძანებებს, Windows და WSL ფაილურ გზებს, MAFFT-ით მრავალჯერად გასწორებას და IQ-TREE 2-ით ფილოგენეტიკური ხის აგებას.
+Follow the guides in this order:
 
-## ვისთვისაა განკუთვნილი
+1. [Install WSL and Ubuntu](01_install_wsl.md)
+2. [Learn basic Linux commands](02_linux_basics.md)
+3. [Understand Windows and WSL paths](03_windows_and_wsl_paths.md)
+4. [Install bioinformatics tools](04_install_bioinformatics_tools.md)
+5. [Align sequences with MAFFT](05_mafft_alignment.md)
+6. [Build a phylogenetic tree with IQ-TREE](06_iqtree_phylogeny.md)
+7. [View and interpret trees](07_viewing_trees.md)
+8. [Troubleshoot common problems](08_troubleshooting.md)
 
-სახელმძღვანელო დაწერილია თანამშრომლებისთვის, რომლებსაც შეიძლება არ ჰქონდეთ Linux-ის, Git-ის ან command line-ის გამოცდილება. თითოეულ თავში მითითებულია:
-
-- სად უნდა გაეშვას ბრძანება — Windows PowerShell-ში თუ Ubuntu/WSL-ში;
-- რა ტიპის ფაილია საჭირო;
-- რას აკეთებს თითოეული ბრძანება;
-- რა შედეგს უნდა ელოდოთ;
-- როგორ მოიქცეთ გავრცელებული შეცდომების შემთხვევაში.
-
-## თავების თანმიმდევრობა
-
-1. [WSL-ისა და Ubuntu-ს დაყენება](01_install_wsl.md)
-2. [Linux-ის საბაზისო ბრძანებები](02_linux_basics.md)
-3. [Windows და WSL ფაილური გზები](03_windows_and_wsl_paths.md)
-4. [MAFFT-ისა და IQ-TREE 2-ის დაყენება](04_install_bioinformatics_tools.md)
-5. [FASTA ფაილების გასწორება MAFFT-ით](05_mafft_alignment.md)
-6. [ფილოგენეტიკური ხის აგება IQ-TREE 2-ით](06_iqtree_phylogeny.md)
-7. [ხეების დათვალიერება და ექსპორტი](07_viewing_trees.md)
-8. [შეცდომების გამოსწორება](08_troubleshooting.md)
-
-## მნიშვნელოვანი წესები
-
-- ბრძანებები და ფაილის სახელები ზუსტად აკრიფეთ.
-- ფაილის სახელებში უმჯობესია არ გამოიყენოთ სივრცეები. გამოიყენეთ `_` ან `-`.
-- ყოველთვის შეინახეთ საწყისი, უცვლელი მონაცემები ცალკე საქაღალდეში.
-- GitHub-ზე არ ატვირთოთ პაროლები, ტოკენები, პაციენტების მონაცემები ან სხვა კონფიდენციალური ინფორმაცია.
-- დიდი raw მონაცემები ჩვეულებრივ GitHub-ზე არ ინახება. საცავში განათავსეთ სკრიპტები, მცირე მაგალითები და შედეგების განმარტებები.
-
-## მინიმალური სამუშაო პროცესი
+Basic workflow:
 
 ```text
-unaligned FASTA
-      │
-      ▼
-MAFFT multiple-sequence alignment
-      │
-      ▼
-aligned FASTA
-      │
-      ▼
-IQ-TREE 2 model selection + maximum-likelihood tree
-      │
-      ▼
-.treefile / .contree / .iqtree / .log
+Unaligned FASTA -> MAFFT -> aligned FASTA -> IQ-TREE -> phylogenetic tree
 ```
+
+For every analysis, save the original input, exact command, tool versions, parameters, and a short explanation of the output.
+
+Do not upload confidential, identifiable, restricted, or unpublished data without permission. Never commit passwords, tokens, private keys, patient information, or institutional credentials.
