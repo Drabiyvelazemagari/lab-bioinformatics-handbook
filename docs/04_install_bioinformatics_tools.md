@@ -13,15 +13,15 @@ sudo apt update
 ## 2. პროგრამების დაყენება
 
 ```bash
-sudo apt install -y mafft iqtree
+sudo apt install -y mafft iqtree2
 ```
 
-თუ `iqtree` პაკეტი ვერ მოიძებნა, ჯერ შეამოწმეთ Ubuntu-ს ვერსია და package list:
+თუ `iqtree2` პაკეტი ვერ მოიძებნა, ჯერ შეამოწმეთ Ubuntu-ს ვერსია და package list:
 
 ```bash
 cat /etc/os-release
 sudo apt update
-apt search iqtree
+apt search iqtree2
 ```
 
 ## 3. MAFFT-ის შემოწმება
@@ -45,11 +45,11 @@ which iqtree2
 iqtree2 --version
 ```
 
-ზოგ ინსტალაციაში executable შეიძლება ერქვას `iqtree`:
+ზოგ ინსტალაციაში executable შეიძლება ერქვას `iqtree2`:
 
 ```bash
-which iqtree
-iqtree --version
+which iqtree2
+iqtree2 --version
 ```
 
 ## 5. ყველა შემოწმება ერთდროულად
@@ -63,7 +63,7 @@ command -v iqtree2 && iqtree2 --version
 
 ```bash
 sudo apt update
-sudo apt upgrade mafft iqtree
+sudo apt upgrade mafft iqtree2
 ```
 
 ## 7. მნიშვნელოვანი შენიშვნა ვერსიებზე
