@@ -22,7 +22,10 @@ sudo apt install -y mafft iqtree2
 cat /etc/os-release
 sudo apt update
 apt search iqtree2
+apt search iqtree
 ```
+
+ზოგ Ubuntu ვერსიაში package-ს შეიძლება ერქვას `iqtree`, მიუხედავად იმისა, რომ პროგრამის გასაშვები ბრძანებაა `iqtree2`.
 
 ## 3. MAFFT-ის შემოწმება
 
@@ -45,28 +48,148 @@ which iqtree2
 iqtree2 --version
 ```
 
-ზოგ ინსტალაციაში executable შეიძლება ერქვას `iqtree2`:
+ზოგ ინსტალაციაში executable-ს შეიძლება ერქვას `iqtree`:
 
 ```bash
-which iqtree2
+which iqtree
+iqtree --version
+```
+
+## 5. რას ნიშნავს PATH და გვჭირდება თუ არა მისი ხელით დამატება
+
+`PATH` არის საქაღალდეების სია, რომლებშიც Linux ეძებს გასაშვებ პროგრამებს. მისი ნახვა შეიძლება ასე:
+
+```bash
+echo "$PATH" | tr ':' '\n'
+```
+
+თუ პროგრამა `apt`-ით დაყენდა და `which` აბრუნებს ასეთ მისამართს:
+
+```text
+/usr/bin/mafft
+/usr/bin/iqtree2
+```
+
+მაშინ დამატებითი მოქმედება საჭირო არ არის. `/usr/bin` ჩვეულებრივ უკვე შედის `PATH`-ში და პროგრამები ნებისმიერი საქაღალდიდან გაეშვება.
+
+ეს შეამოწმეთ:
+
+```bash
+command -v mafft
+command -v iqtree2
+```
+
+თუ ორივე ბრძანება აბრუნებს executable-ის მისამართს, PATH სწორადაა დაყენებული.
+
+## 6. ხელით გადმოწერილი პროგრამის PATH-ში დამატება
+
+ეს ნაწილი საჭიროა მხოლოდ მაშინ, როდესაც პროგრამა ხელით გადმოწერეთ ან archive-იდან ამოიღეთ და `command not found` მიიღეთ.
+
+პირველ რიგში იპოვეთ executable. მაგალითად:
+
+```bash
+find "$HOME" -type f \( -name "iqtree2" -o -name "iqtree" -o -name "mafft" \) 2>/dev/null
+```
+
+ვთქვათ, IQ-TREE 2 მდებარეობს აქ:
+
+```text
+/home/user/software/iqtree2/bin/iqtree2
+```
+
+ჯერ executable permission მიეცით:
+
+```bash
+chmod +x "$HOME/software/iqtree2/bin/iqtree2"
+```
+
+შემდეგ PATH-ში უნდა დაამატოთ **საქაღალდე**, რომელშიც executable მდებარეობს — არა თვითონ executable ფაილი:
+
+```bash
+echo 'export PATH="$HOME/software/iqtree2/bin:$PATH"' >> "$HOME/.bashrc"
+```
+
+ცვლილება მიმდინარე terminal-ში ჩატვირთეთ:
+
+```bash
+source "$HOME/.bashrc"
+hash -r
+```
+
+შემდეგ შეამოწმეთ:
+
+```bash
+command -v iqtree2
 iqtree2 --version
 ```
 
-## 5. ყველა შემოწმება ერთდროულად
+შედეგი დაახლოებით ასეთი უნდა იყოს:
+
+```text
+/home/user/software/iqtree2/bin/iqtree2
+```
+
+> **მნიშვნელოვანია:** შეცვალეთ `$HOME/software/iqtree2/bin` იმ რეალური საქაღალდის მისამართით, სადაც თქვენს კომპიუტერში `iqtree2` ან სხვა executable მდებარეობს.
+
+### PATH-ში დროებით დამატება
+
+თუ პროგრამა მხოლოდ მიმდინარე terminal session-ში გჭირდებათ:
+
+```bash
+export PATH="$HOME/software/iqtree2/bin:$PATH"
+```
+
+ეს ცვლილება terminal-ის დახურვის შემდეგ გაქრება. მუდმივი ცვლილებისთვის გამოიყენეთ `.bashrc` მეთოდი.
+
+### ალტერნატივა: symbolic link `/usr/local/bin`-ში
+
+ხელით გადმოწერილი executable შეგიძლიათ დააკავშიროთ `/usr/local/bin`-თან:
+
+```bash
+sudo ln -s "$HOME/software/iqtree2/bin/iqtree2" /usr/local/bin/iqtree2
+```
+
+შემდეგ შეამოწმეთ:
+
+```bash
+command -v iqtree2
+iqtree2 --version
+```
+
+თუ იგივე სახელის link უკვე არსებობს, ბრძანება შეცდომას დააბრუნებს. არსებული link-ის ნახვა შეიძლება ასე:
+
+```bash
+ls -l /usr/local/bin/iqtree2
+```
+
+## 7. ყველა შემოწმება ერთდროულად
 
 ```bash
 command -v mafft && mafft --version
 command -v iqtree2 && iqtree2 --version
 ```
 
-## 6. პროგრამის განახლება apt-ით
+თუ executable-ს `iqtree` ეწოდება:
+
+```bash
+command -v iqtree && iqtree --version
+```
+
+## 8. პროგრამების განახლება apt-ით
 
 ```bash
 sudo apt update
 sudo apt upgrade mafft iqtree2
 ```
 
-## 7. მნიშვნელოვანი შენიშვნა ვერსიებზე
+თუ დაყენებული package არის `iqtree`:
+
+```bash
+sudo apt update
+sudo apt upgrade mafft iqtree
+```
+
+## 9. მნიშვნელოვანი შენიშვნა ვერსიებზე
 
 განსხვავებულ კომპიუტერებზე პროგრამის ვერსიები შეიძლება განსხვავდებოდეს. ანალიზის reproducibility-სთვის ყოველთვის ჩაიწერეთ გამოყენებული ვერსიები:
 
@@ -75,6 +198,16 @@ sudo apt upgrade mafft iqtree2
   date -Iseconds
   mafft --version 2>&1
   iqtree2 --version 2>&1
+} > software_versions.txt
+```
+
+თუ executable-ს `iqtree` ეწოდება:
+
+```bash
+{
+  date -Iseconds
+  mafft --version 2>&1
+  iqtree --version 2>&1
 } > software_versions.txt
 ```
 
